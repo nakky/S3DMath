@@ -715,22 +715,68 @@ namespace S3DMath
 
 	void _multiplyMatrix44Vector3NEON(Vector3 &vOut, const Matrix44 &m, const Vector3 &v)
 	{
+		float32x4_t v0 = vshuffleq_f32(v.quad, v.quad, VQ_SHUFFLE(0, 0, 0, 0));
+		float32x4_t v1 = vshuffleq_f32(v.quad, v.quad, VQ_SHUFFLE(1, 1, 1, 1));
+		float32x4_t v2 = vshuffleq_f32(v.quad, v.quad, VQ_SHUFFLE(2, 2, 2, 2));
+
+		float32x4_t m0 = vmulq_f32(m.row[0], v0);
+		float32x4_t m1 = vmulq_f32(m.row[1], v1);
+		float32x4_t m2 = vmulq_f32(m.row[2], v2);
+
+		float32x4_t s0 = vaddq_f32(m0, m1);
+
+		vOut.quad = vaddq_f32(s0, m2);
 	}
 
 	void _multiplyMatrix44Vector4NEON(Vector4 &vOut, const Matrix44 &m, const Vector4 &v)
 	{
+		float32x4_t v0 = vshuffleq_f32(v.quad, v.quad, VQ_SHUFFLE(0, 0, 0, 0));
+		float32x4_t v1 = vshuffleq_f32(v.quad, v.quad, VQ_SHUFFLE(1, 1, 1, 1));
+		float32x4_t v2 = vshuffleq_f32(v.quad, v.quad, VQ_SHUFFLE(2, 2, 2, 2));
+		float32x4_t v3 = vshuffleq_f32(v.quad, v.quad, VQ_SHUFFLE(3, 3, 3, 3));
+
+		float32x4_t m0 = vmulq_f32(m.row[0], v0);
+		float32x4_t m1 = vmulq_f32(m.row[1], v1);
+		float32x4_t m2 = vmulq_f32(m.row[2], v2);
+		float32x4_t m3 = vmulq_f32(m.row[3], v3);
+
+		float32x4_t s0 = vaddq_f32(m0, m1);
+		float32x4_t s1 = vaddq_f32(m2, m3);
+
+		vOut.quad = vaddq_f32(s0, s1);
 	}
 
 	void _multiplyMatrix44FloatNEON(Matrix44 &mOut, const Matrix44 &m, const float f)
 	{
+		float32x4_t fv = vld1q_f32(&f);
+
+		mOut.row[0] = vmulq_f32(m.row[0], fv);
+		mOut.row[1] = vmulq_f32(m.row[1], fv);
+		mOut.row[2] = vmulq_f32(m.row[2], fv);
+		mOut.row[3] = vmulq_f32(m.row[3], fv);
 	}
 
 	void _divideMatrix44FloatNEON(Matrix44 &mOut, const Matrix44 &m, const float f)
 	{
+		float32x4_t fv = vld1q_f32(&f);
+
+		mOut.row[0] = vdivq_f32(m.row[0], fv);
+		mOut.row[1] = vdivq_f32(m.row[1], fv);
+		mOut.row[2] = vdivq_f32(m.row[2], fv);
+		mOut.row[3] = vdivq_f32(m.row[3], fv);
 	}
 
 	void _transposeMatrix44NEON(Matrix44 &mOut, const Matrix44 &m)
 	{
+		float32x4_t b0 = vshuffleq_f32(m.row[0], m.row[1], 0x44);
+		float32x4_t b2 = vshuffleq_f32(m.row[0], m.row[1], 0xEE);
+		float32x4_t b1 = vshuffleq_f32(m.row[2], m.row[3], 0x44);
+		float32x4_t b3 = vshuffleq_f32(m.row[2], m.row[3], 0xEE);
+
+		mOut.row[0] = vshuffleq_f32(b0, b1, 0x88);
+		mOut.row[1] = vshuffleq_f32(b0, b1, 0xDD);
+		mOut.row[2] = vshuffleq_f32(b2, b3, 0x88);
+		mOut.row[3] = vshuffleq_f32(b2, b3, 0xDD);
 	}
 
 #endif // SIMDARCH_NEON
