@@ -16,6 +16,8 @@
 
 #include "S3DMath/Common.h"
 
+#include <string.h>
+
 namespace S3DMath
 {
 
