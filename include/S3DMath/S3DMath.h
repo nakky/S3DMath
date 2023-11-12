@@ -21,4 +21,10 @@
 #include "S3DMath/MathematicsTypes.h"
 #include "S3DMath/GeometricNode.h"
 
+#include "S3DMath/Mesh.h"
+#include "S3DMath/Entity.h"
+#include "S3DMath/Cluster.h"
+
+#include "S3DMath/Mesh/Rectangle.h"
+
 #endif // S3DMATH_S3DMATH_H

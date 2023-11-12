@@ -3,13 +3,12 @@ inc = include_directories([
   '../include',
   ])
 
+srcs = [
+  './vector.cpp',
+]
 
 deps = [
   s3dmath_dep,
-]
-
-srcs = [
-  'vector.cpp',
 ]
 
 executable(

@@ -76,6 +76,8 @@ namespace S3DMath
 		{
 		}
 
+		virtual ~GeometricNode() {}
+
 	private:
 		void _setRelationToParent(GeometricNode *parent);
 		void _cutOffRelationToParent();
@@ -121,12 +123,17 @@ namespace S3DMath
 
 		void adjustLocalStateToParentObject();
 
+		void *getUserData() { return mUserData; }
+		void setUserData(void *data) { mUserData = data; }
+
 	protected:
 		GeometricState mLocal;
 		GeometricState mGlobal;
 
 		GeometricNode *mParent;				   //<! Parent object pointer
 		std::list<GeometricNode *> mChildList; //<! Child object pointers
+
+		void *mUserData;
 	};
 
 }; // namespace S3DMath

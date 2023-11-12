@@ -4,9 +4,8 @@ project(
   version: '0.1.0',
   default_options: [
     'cpp_std=c++20',
-    'default_library=both',
   ],
-  meson_version: '>=0.47.0',
+  meson_version: '>=1.2.0',
 )
 
 compiler = meson.get_compiler('cpp')
@@ -24,6 +23,7 @@ posix_common_args = [
   '-Wall', '-Wextra', '-Wpedantic', '-Wshadow', '-Wstrict-aliasing',
   '-Wstrict-overflow=5', '-Wcast-align',
   '-Wpointer-arith', '-Wcast-qual', '-Wold-style-cast',
+  '-w',
 ]
 if compiler_id == 'clang'
   cpp_args += posix_common_args + [
@@ -67,8 +67,6 @@ else
 endif
 
 cpp_args += ['-fpermissive', '-Wold-style-cast']
-
-cpp_args += ['-DWLR_USE_UNSTABLE']
 
 foreach def : cpp_defines
   cpp_define_args += [define_prefix + def]
