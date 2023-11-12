@@ -36,11 +36,11 @@ namespace S3DMath
         void addChild(Entity *child);
         void removeChild(Entity *child);
 
-        void setLocalPosition(Vector3 &pos);
+        void setLocalPosition(const Vector3 &pos);
         const Vector3 *getLocalPosition() const { return mNode.getLocalPosition(); }
-        void setLocalRotation(Quaternion4 &rot);
+        void setLocalRotation(const Quaternion4 &rot);
         const Quaternion4 *getLocalOrientation() const { return mNode.getLocalOrientation(); }
-        void setLocalScale(Vector3 &rot);
+        void setLocalScale(const Vector3 &scl);
         const Vector3 *getLocalScale() const { return mNode.getLocalScale(); }
 
         const Vector3 *getGlobalPosition() const { return mNode.getGlobalPosition(); }

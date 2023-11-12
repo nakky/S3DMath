@@ -14,19 +14,19 @@ namespace S3DMath
         mNode.cutOffRelationToChild(&(child->mNode));
     }
 
-    void Entity::setLocalPosition(Vector3 &pos)
+    void Entity::setLocalPosition(const Vector3 &pos)
     {
         mNode.setLocalPosition(pos);
         mStateNeedUpdate = true;
     }
 
-    void Entity::setLocalRotation(Quaternion4 &rot)
+    void Entity::setLocalRotation(const Quaternion4 &rot)
     {
         mNode.setLocalOrientation(rot);
         mStateNeedUpdate = true;
     }
 
-    void Entity::setLocalScale(Vector3 &scl)
+    void Entity::setLocalScale(const Vector3 &scl)
     {
         mNode.setLocalScale(scl);
         mStateNeedUpdate = true;
