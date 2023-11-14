@@ -69,9 +69,6 @@ static const char *vertex_shader_text =
     "{"
     "   vec4 vec = vec4(rotate(mul(position, scale), rot) + trans, 1.0);"
     "   gl_Position = projection * vec4(rotate((vec.xyz - ctrans), crot), 1.0);"
-    //"   gl_Position = vec4((vec.xyz - ctrans), 1.0);"
-    //"   gl_Position = vec4(rotate((vec.xyz - ctrans), crot), 1.0);"
-    //"   gl_Position = projection * vec4(rotate(mul(position, scale), rot) + trans, 1.0);"
     "}\n";
 
 static const char *fragment_shader_text =
