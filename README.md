@@ -30,7 +30,7 @@ Download it as a submodule in your project.
 ```
 Project
 ├─ modules/
-│  └─ SThread/
+│  └─ S3DMath/
 │     └─ meson.build
 └─meson.build
 ```
