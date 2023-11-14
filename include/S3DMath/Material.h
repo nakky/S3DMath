@@ -11,6 +11,8 @@ namespace S3DMath
         int textureId;
         int shaderId;
         bool opaque;
+
+        void *userData;
     };
 }
 

@@ -15,9 +15,10 @@ namespace S3DMath
 
     public:
         Entity()
-            : mStateNeedUpdate(true),
+            : mNeedStateUpdate(true),
               mMesh(NULL),
-              mMaterial(NULL)
+              mMaterial(NULL),
+              mUserData(NULL)
         {
             mNode.setUserData(this);
         }
@@ -30,8 +31,8 @@ namespace S3DMath
         Material *getMaterial() { return mMaterial; }
         void setMaterial(Material *mat) { mMaterial = mat; }
 
-        bool needStateUpdate() { return mStateNeedUpdate; }
-        bool resetStateUpdateState() { mStateNeedUpdate = false; }
+        bool needUpdateState() { return mNeedStateUpdate; }
+        virtual void updateState();
 
         void addChild(Entity *child);
         void removeChild(Entity *child);
@@ -52,12 +53,13 @@ namespace S3DMath
 
     protected:
         S3DMath::GeometricNode mNode;
-        bool mStateNeedUpdate;
+        bool mNeedStateUpdate;
 
         Mesh *mMesh;
         Material *mMaterial;
 
         float mDiffFromCamera;
+        void *mUserData;
     };
 }
 

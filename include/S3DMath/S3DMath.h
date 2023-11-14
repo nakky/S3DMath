@@ -25,6 +25,11 @@
 #include "S3DMath/Entity.h"
 #include "S3DMath/Cluster.h"
 
+#include "S3DMath/Camera.h"
+
+#include "S3DMath/RenderList.h"
+
 #include "S3DMath/Mesh/Rectangle.h"
+#include "S3DMath/Mesh/Cuboid.h"
 
 #endif // S3DMATH_S3DMATH_H

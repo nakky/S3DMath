@@ -2,6 +2,22 @@
 
 namespace S3DMath
 {
+#define VQ_SHUFFLE(z, y, x, w) (((z) << 6) | ((y) << 4) | ((x) << 2) | (w))
+#define vshuffleq_f32(a, b, imm8)                   \
+	__extension__({                                 \
+		float32x4_t ret;                            \
+		ret = vmovq_n_f32(                          \
+			vgetq_lane_f32(a, (imm8) & (0x3)));     \
+		ret = vsetq_lane_f32(                       \
+			vgetq_lane_f32(a, ((imm8) >> 2) & 0x3), \
+			ret, 1);                                \
+		ret = vsetq_lane_f32(                       \
+			vgetq_lane_f32(b, ((imm8) >> 4) & 0x3), \
+			ret, 2);                                \
+		ret = vsetq_lane_f32(                       \
+			vgetq_lane_f32(b, ((imm8) >> 6) & 0x3), \
+			ret, 3);                                \
+	})
 
 	//////////////////////////////////////////////////////////
 	//						Matrix33						//
@@ -163,7 +179,6 @@ namespace S3DMath
 
 	void _multiplyMatrix33Vector2SSE(Vector2 &vOut, const Matrix33 &m, const Vector2 &v)
 	{
-
 		vOut.x = m.m[0][0] * v.x + m.m[1][0] * v.y + m.m[2][0] * 1.0f;
 		vOut.y = m.m[0][1] * v.x + m.m[1][1] * v.y + m.m[2][1] * 1.0f;
 	}
@@ -219,34 +234,87 @@ namespace S3DMath
 	//////////////////////////////////////////////////
 	void _addMatrix33Matrix33NEON(Matrix33 &mOut, const Matrix33 &m1, const Matrix33 &m2)
 	{
+		mOut.row[0] = vaddq_f32(m1.row[0], m2.row[0]);
+		mOut.row[1] = vaddq_f32(m1.row[1], m2.row[1]);
+		mOut.row[2] = vaddq_f32(m1.row[2], m2.row[2]);
 	}
 
 	void _subtractMatrix33Matrix33NEON(Matrix33 &mOut, const Matrix33 &m1, const Matrix33 &m2)
 	{
+		mOut.row[0] = vsubq_f32(m1.row[0], m2.row[0]);
+		mOut.row[1] = vsubq_f32(m1.row[1], m2.row[1]);
+		mOut.row[2] = vsubq_f32(m1.row[2], m2.row[2]);
 	}
 
 	void _multiplyMatrix33Matrix33NEON(Matrix33 &mOut, const Matrix33 &m1, const Matrix33 &m2)
 	{
+		mOut.row[0] = vaddq_f32(
+			vaddq_f32(
+				vmulq_f32(vshuffleq_f32(m1.row[0], m1.row[0], VQ_SHUFFLE(0, 0, 0, 0)), m2.row[0]),
+				vmulq_f32(vshuffleq_f32(m1.row[0], m1.row[0], VQ_SHUFFLE(1, 1, 1, 1)), m2.row[1])),
+			vmulq_f32(vshuffleq_f32(m1.row[0], m1.row[0], VQ_SHUFFLE(2, 2, 2, 2)), m2.row[2]));
+
+		mOut.row[1] = vaddq_f32(
+			vaddq_f32(
+				vmulq_f32(vshuffleq_f32(m1.row[1], m1.row[1], VQ_SHUFFLE(0, 0, 0, 0)), m2.row[0]),
+				vmulq_f32(vshuffleq_f32(m1.row[1], m1.row[1], VQ_SHUFFLE(1, 1, 1, 1)), m2.row[1])),
+			vmulq_f32(vshuffleq_f32(m1.row[1], m1.row[1], VQ_SHUFFLE(2, 2, 2, 2)), m2.row[2]));
+
+		mOut.row[2] = vaddq_f32(
+			vaddq_f32(
+				vmulq_f32(vshuffleq_f32(m1.row[2], m1.row[2], VQ_SHUFFLE(0, 0, 0, 0)), m2.row[0]),
+				vmulq_f32(vshuffleq_f32(m1.row[2], m1.row[2], VQ_SHUFFLE(1, 1, 1, 1)), m2.row[1])),
+			vmulq_f32(vshuffleq_f32(m1.row[2], m1.row[2], VQ_SHUFFLE(2, 2, 2, 2)), m2.row[2]));
 	}
 
 	void _multiplyMatrix33Vector2NEON(Vector2 &vOut, const Matrix33 &m, const Vector2 &v)
 	{
+		vOut.x = m.m[0][0] * v.x + m.m[1][0] * v.y + m.m[2][0] * 1.0f;
+		vOut.y = m.m[0][1] * v.x + m.m[1][1] * v.y + m.m[2][1] * 1.0f;
 	}
 
 	void _multiplyMatrix33Vector3NEON(Vector3 &vOut, const Matrix33 &m, const Vector3 &v)
 	{
+		vOut.x = m.m[0][0] * v.x + m.m[1][0] * v.y + m.m[2][0] * v.z;
+		vOut.y = m.m[0][1] * v.x + m.m[1][1] * v.y + m.m[2][1] * v.z;
+		vOut.z = m.m[0][2] * v.x + m.m[1][2] * v.y + m.m[2][2] * v.z;
 	}
 
 	void _multiplyMatrix33FloatNEON(Matrix33 &mOut, const Matrix33 &m, const float f)
 	{
+		float32x4_t f128;
+
+		f128 = vld1q_f32(&f);
+
+		mOut.row[0] = vmulq_f32(m.row[0], f128);
+		mOut.row[1] = vmulq_f32(m.row[1], f128);
+		mOut.row[2] = vmulq_f32(m.row[2], f128);
 	}
 
 	void _divideMatrix33FloatNEON(Matrix33 &mOut, const Matrix33 &m, const float f)
 	{
+		float32x4_t f128;
+
+		f128 = vld1q_f32(&f);
+
+		mOut.row[0] = vdivq_f32(m.row[0], f128);
+		mOut.row[1] = vdivq_f32(m.row[1], f128);
+		mOut.row[2] = vdivq_f32(m.row[2], f128);
 	}
 
 	void _transposeMatrix33NEON(Matrix33 &mOut, const Matrix33 &m)
 	{
+		float buf;
+		buf = m.m[1][0];
+		mOut.m[1][0] = m.m[0][1];
+		mOut.m[0][1] = buf;
+		buf = m.m[2][0];
+		mOut.m[2][0] = m.m[0][2];
+		mOut.m[0][2] = buf;
+
+		buf = m.m[2][1];
+		mOut.m[2][1] = m.m[1][2];
+		mOut.m[1][2] = buf;
 	}
 #endif // SIMDARCH_NEON
 
@@ -263,6 +331,36 @@ namespace S3DMath
 	/****************************************/
 	bool Matrix33::inverse()
 	{
+		Matrix33 tmpMatrix;
+		float det = 0.0f;
+
+		tmpMatrix.serial[0] = serial[4] * serial[4] - serial[8] * serial[8];
+
+		tmpMatrix.serial[3] = -serial[3] * serial[8] + serial[5] * serial[6];
+
+		tmpMatrix.serial[6] = serial[3] * serial[7] - serial[4] * serial[6];
+
+		tmpMatrix.serial[1] = -serial[1] * serial[8] + serial[2] * serial[7];
+
+		tmpMatrix.serial[4] = serial[0] * serial[8] - serial[2] * serial[6];
+
+		tmpMatrix.serial[7] = -serial[0] * serial[7] + serial[1] * serial[6];
+
+		tmpMatrix.serial[2] = serial[1] * serial[5] - serial[2] * serial[4];
+
+		tmpMatrix.serial[5] = -serial[0] * serial[5] + serial[2] * serial[3];
+
+		tmpMatrix.serial[8] = serial[0] * serial[4] - serial[1] * serial[3];
+
+		det = serial[0] * tmpMatrix.serial[0] + serial[1] * tmpMatrix.serial[3] + serial[2] * tmpMatrix.serial[6];
+
+		if (det == 0)
+			return FALSE;
+
+		det = 1.0f / det;
+
+		for (int i = 0; i < 9; i++)
+			serial[i] = tmpMatrix.serial[i] * det;
 
 		return TRUE;
 	}
@@ -607,23 +705,6 @@ namespace S3DMath
 	//////////////////////////////////////////////////
 	//					NEON						//
 	//////////////////////////////////////////////////
-
-#define VQ_SHUFFLE(z, y, x, w) (((z) << 6) | ((y) << 4) | ((x) << 2) | (w))
-#define vshuffleq_f32(a, b, imm8)                   \
-	__extension__({                                 \
-		float32x4_t ret;                            \
-		ret = vmovq_n_f32(                          \
-			vgetq_lane_f32(a, (imm8) & (0x3)));     \
-		ret = vsetq_lane_f32(                       \
-			vgetq_lane_f32(a, ((imm8) >> 2) & 0x3), \
-			ret, 1);                                \
-		ret = vsetq_lane_f32(                       \
-			vgetq_lane_f32(b, ((imm8) >> 4) & 0x3), \
-			ret, 2);                                \
-		ret = vsetq_lane_f32(                       \
-			vgetq_lane_f32(b, ((imm8) >> 6) & 0x3), \
-			ret, 3);                                \
-	})
 
 	void
 	_addMatrix44Matrix44NEON(Matrix44 &mOut, const Matrix44 &m1, const Matrix44 &m2)

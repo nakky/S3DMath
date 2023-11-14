@@ -109,8 +109,11 @@ namespace S3DMath
 		else if (isExistAsDescendant(child))
 			return false;
 
+		child->calculateGlobalState();
+
 		if (child->mParent != NULL)
 			child->mParent->cutOffRelationToChild(child);
+
 		mChildList.push_back(child);
 		child->_setRelationToParent(this);
 

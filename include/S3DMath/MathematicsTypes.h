@@ -1054,60 +1054,6 @@ namespace S3DMath
 		};
 	};
 
-	/****************************************/
-	/*!
-		@class	Cube3
-		@brief	3D Cube
-		@note
-		@author	Naoto Nakamura
-		@date	Mar. 10, 2009
-	*/
-	/****************************************/
-	class Cube3
-	{
-	public:
-		// constructor
-		Cube3() {}
-		Cube3(const float length) : mLength(length) {}
-
-		// property
-		void set(const float length) { mLength = length; }
-
-	public:
-		float mLength; //!< length of edge
-	};
-
-	/****************************************/
-	/*!
-		@class	Cuboid
-		@brief	3D Cube
-		@note
-		@author	Naoto Nakamura
-		@date	Mar. 10, 2009
-	*/
-	/****************************************/
-	class Cuboid3
-	{
-	public:
-		// constructor
-		Cuboid3() {}
-		Cuboid3(const float xLength, const float yLength, const float zLength)
-			: mLengthX(xLength), mLengthY(yLength), mLengthZ(zLength) {}
-
-		// property
-		void set(const float xLength, const float yLength, const float zLength)
-		{
-			mLengthX = xLength;
-			mLengthY = yLength;
-			mLengthZ = zLength;
-		}
-
-	public:
-		float mLengthX; //!< X edge length
-		float mLengthY; //!< Y edge length
-		float mLengthZ; //!< Z edge length
-	};
-
 }; // namespace S3DMath
 
 #include "S3DMath/Vector-inl.h"

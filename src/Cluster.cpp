@@ -4,11 +4,10 @@ namespace S3DMath
 {
     bool Cluster::tryUpdateInternal(Entity *target, bool parentUpdate)
     {
-        bool needUpdate = parentUpdate || target->needStateUpdate();
+        bool needUpdate = parentUpdate || target->needUpdateState();
         if (needUpdate)
         {
-            target->mNode.calculateGlobalState();
-            target->resetStateUpdateState();
+            target->updateState();
         }
         bool retval = false;
         auto children = target->mNode.getChildList();

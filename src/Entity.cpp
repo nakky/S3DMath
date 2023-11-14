@@ -17,19 +17,25 @@ namespace S3DMath
     void Entity::setLocalPosition(const Vector3 &pos)
     {
         mNode.setLocalPosition(pos);
-        mStateNeedUpdate = true;
+        mNeedStateUpdate = true;
     }
 
     void Entity::setLocalRotation(const Quaternion4 &rot)
     {
         mNode.setLocalOrientation(rot);
-        mStateNeedUpdate = true;
+        mNeedStateUpdate = true;
     }
 
     void Entity::setLocalScale(const Vector3 &scl)
     {
         mNode.setLocalScale(scl);
-        mStateNeedUpdate = true;
+        mNeedStateUpdate = true;
+    }
+
+    void Entity::updateState()
+    {
+        mNode.calculateGlobalState();
+        mNeedStateUpdate = false;
     }
 
 }; // namespace S3DMath

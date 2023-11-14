@@ -37,10 +37,13 @@ namespace S3DMath
         virtual void cleanup() {}
 
         virtual void *getVertices() { return mVertices; }
+        virtual unsigned int getNumVertices() { return 4; }
         virtual unsigned int getVerticesBufferSize() { return 4 * sizeof(Vector3); }
         virtual void *getIndices() { return mIndices; }
+        virtual unsigned int getNumIndices() { return 6; }
         virtual unsigned int getIndicesBufferSize() { return 6 * sizeof(int); }
         virtual void *getUvs() { return mUvs; }
+        virtual unsigned int getNumUvs() { return 4; }
         virtual unsigned int getUvsBufferSize() { return 4 * sizeof(Vector2); }
 
     protected:
