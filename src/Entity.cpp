@@ -4,6 +4,16 @@
 
 namespace S3DMath
 {
+    void Entity::init()
+    {
+        mNode.init();
+    }
+
+    void Entity::cleanup()
+    {
+        mNode.cleanup();
+    }
+
     void Entity::addChild(Entity *child)
     {
         mNode.setRelationToChild(&(child->mNode));

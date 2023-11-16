@@ -157,6 +157,7 @@ void releaseEntity(Entity *entity)
     }
 
     // entityList.remove(entity);
+    entity->cleanup();
     SAFE_DELETE(entity);
 }
 
@@ -255,17 +256,20 @@ int main(void)
 
     // Camera
     Camera *camera = new Camera();
+    camera->init();
     registerEntity(camera);
 
     cluster->getRootEntity()->addChild(camera);
 
     Entity *content = new Entity();
+    content->init();
     registerEntity(content);
 
     cluster->getRootEntity()->addChild(content);
 
     // Red rect
     entity = new Entity();
+    entity->init();
 
     mesh = new Rectangle(1.f, 1.f);
     mesh->init();
@@ -295,6 +299,7 @@ int main(void)
 
     // blue rect
     entity = new Entity();
+    entity->init();
 
     mesh = new Cuboid(0.5f, 0.5f, 0.5f);
 

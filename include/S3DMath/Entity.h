@@ -25,6 +25,9 @@ namespace S3DMath
 
         virtual ~Entity() {}
 
+        virtual void init();
+        virtual void cleanup();
+
         Mesh *getMesh() { return mMesh; }
         void setMesh(Mesh *mesh) { mMesh = mesh; }
 

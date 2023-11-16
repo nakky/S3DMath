@@ -83,6 +83,7 @@ namespace S3DMath
 		void _cutOffRelationToParent();
 
 	public:
+		virtual void init() {}
 		virtual void cleanup();
 
 		// Parent-child relationship
