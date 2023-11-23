@@ -24,7 +24,7 @@ namespace S3DMath
 
     bool Cluster::tryUpdate()
     {
-        return tryUpdateInternal(&mRootEntity, false);
+        return tryUpdateInternal(this, false);
     }
 
 }; // namespace S3DMath

@@ -259,13 +259,13 @@ int main(void)
     camera->init();
     registerEntity(camera);
 
-    cluster->getRootEntity()->addChild(camera);
+    cluster->addChild(camera);
 
     Entity *content = new Entity();
     content->init();
     registerEntity(content);
 
-    cluster->getRootEntity()->addChild(content);
+    cluster->addChild(content);
 
     // Red rect
     entity = new Entity();

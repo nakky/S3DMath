@@ -27,7 +27,7 @@ elif ['darwin'].contains(host_machine.system())
   iokit_dep = dependency('IOKit', required: true)
   deps += iokit_dep
 
-elif ['windows'].contains(host_machine.system())
+elif ['linux'].contains(host_machine.system())
 
 endif
 

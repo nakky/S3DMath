@@ -2,27 +2,24 @@
 #define S3DMATH_CLUSTER_H
 
 #include "S3DMath/Entity.h"
+#include <list>
 
 namespace S3DMath
 {
-    class Cluster
+    class Cluster : public Entity
     {
     public:
         Cluster()
+            : Entity()
         {
         }
 
         virtual ~Cluster() {}
 
-        Entity *getRootEntity() { return &mRootEntity; }
-
         bool tryUpdate();
 
     private:
         bool tryUpdateInternal(Entity *target, bool parentUpdate);
-
-    protected:
-        Entity mRootEntity;
     };
 }
 
