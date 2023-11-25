@@ -52,7 +52,7 @@ namespace S3DMath
 
         Vector3 mVertices[4];
         int mIndices[6] = {0, 1, 2, 0, 2, 3};
-        Vector2 mUvs[4] = {Vector2(0.0f, 0.0f), Vector2(0.0f, 1.0f), Vector2(1.0f, 1.0f), Vector2(1.0f, 0.0f)};
+        Vector2 mUvs[4] = {Vector2(0.0f, 1.0f), Vector2(1.0f, 1.0f), Vector2(1.0f, 0.0f), Vector2(0.0f, 0.0f)};
     };
 
 }; // namespace S3DMath

@@ -7,8 +7,6 @@ namespace S3DMath
 {
     struct Material
     {
-        Vector4 color;
-        int textureId;
         int shaderId;
         bool opaque;
 

@@ -41,6 +41,7 @@ struct MeshGLParameter
 
 struct MaterialGLParameter
 {
+    Vector4 color;
     GLuint texture;
 };
 
@@ -182,7 +183,7 @@ void renderEntity(Entity *entity, float ratio)
     glUniform4fv(rot_location, 1, (const GLfloat *)entity->getGlobalOrientation());
     glUniform3fv(scale_location, 1, (const GLfloat *)entity->getGlobalScale());
 
-    glUniform4fv(vcol_location, 1, (const GLfloat *)&mat->color);
+    glUniform4fv(vcol_location, 1, (const GLfloat *)&matparam->color);
 
     glBindVertexArray(param->posVao);
 
@@ -276,13 +277,13 @@ int main(void)
     entity->setMesh(mesh);
 
     mat = new Material();
-    mat->color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+
     mat->opaque = true;
     mat->shaderId = 0;
-    mat->textureId = 0;
 
     matparam = new MaterialGLParameter();
     matparam->texture = 0;
+    matparam->color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 
     mat->userData = matparam;
     entity->setMaterial(mat);
@@ -307,13 +308,13 @@ int main(void)
     entity->setMesh(mesh);
 
     mat = new Material();
-    mat->color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+
     mat->opaque = true;
     mat->shaderId = 0;
-    mat->textureId = 0;
 
     matparam = new MaterialGLParameter();
     matparam->texture = 0;
+    matparam->color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 
     mat->userData = matparam;
 
