@@ -15,7 +15,9 @@ namespace S3DMath
 
     public:
         Entity()
-            : mNeedStateUpdate(true),
+            : mIsActive(true),
+              mIsActiveInTree(true),
+              mNeedStateUpdate(true),
               mMesh(NULL),
               mMaterial(NULL),
               mUserData(NULL)
@@ -27,6 +29,12 @@ namespace S3DMath
 
         virtual void init();
         virtual void cleanup();
+
+        bool isActive() { return mIsActive; }
+        bool activate() { mIsActive = true; }
+        bool deactivate() { mIsActive = false; }
+
+        bool isActiveInTree() { return mIsActiveInTree; }
 
         Mesh *getMesh() { return mMesh; }
         void setMesh(Mesh *mesh) { mMesh = mesh; }
@@ -55,6 +63,9 @@ namespace S3DMath
         void setDiffFromCamera(const float diff) { mDiffFromCamera = diff; }
 
     protected:
+        bool mIsActive;
+        bool mIsActiveInTree;
+
         S3DMath::GeometricNode mNode;
         bool mNeedStateUpdate;
 

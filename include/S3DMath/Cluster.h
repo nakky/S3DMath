@@ -19,7 +19,7 @@ namespace S3DMath
         bool tryUpdate();
 
     private:
-        bool tryUpdateInternal(Entity *target, bool parentUpdate);
+        bool tryUpdateInternal(Entity *target, bool parentUpdate, bool parentIsActive);
     };
 }
 

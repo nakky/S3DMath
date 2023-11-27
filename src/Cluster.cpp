@@ -2,10 +2,12 @@
 
 namespace S3DMath
 {
-    bool Cluster::tryUpdateInternal(Entity *target, bool parentUpdate)
+    bool Cluster::tryUpdateInternal(Entity *target, bool parentUpdate, bool parentIsActive)
     {
+        target->mIsActiveInTree = target->isActive() && parentIsActive;
+
         bool needUpdate = parentUpdate || target->needUpdateState();
-        if (needUpdate)
+        if (target->isActive() && needUpdate)
         {
             target->updateState();
         }
@@ -14,7 +16,7 @@ namespace S3DMath
         for (auto ite = children.begin(); ite != children.end(); ite++)
         {
             Entity *next = (Entity *)(*ite)->getUserData();
-            bool ret = tryUpdateInternal(next, needUpdate);
+            bool ret = tryUpdateInternal(next, needUpdate, target->isActiveInTree());
             if (ret)
                 retval = true;
         }
@@ -24,7 +26,7 @@ namespace S3DMath
 
     bool Cluster::tryUpdate()
     {
-        return tryUpdateInternal(this, false);
+        return tryUpdateInternal(this, false, true);
     }
 
 }; // namespace S3DMath

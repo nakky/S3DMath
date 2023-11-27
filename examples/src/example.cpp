@@ -272,6 +272,8 @@ int main(void)
     entity = new Entity();
     entity->init();
 
+    // entity->deactivate();
+
     mesh = new Rectangle(1.f, 1.f);
     mesh->init();
     entity->setMesh(mesh);
@@ -301,6 +303,8 @@ int main(void)
     // blue rect
     entity = new Entity();
     entity->init();
+
+    // entity->deactivate();
 
     mesh = new Cuboid(0.5f, 0.5f, 0.5f);
 
@@ -378,12 +382,14 @@ int main(void)
 
         for (auto ite = opaqueList.begin(); ite != opaqueList.end(); ite++)
         {
-            renderEntity((*ite), ratio);
+            if ((*ite)->isActiveInTree())
+                renderEntity((*ite), ratio);
         }
 
         for (auto ite = notOpaqueList.begin(); ite != notOpaqueList.end(); ite++)
         {
-            renderEntity((*ite), ratio);
+            if ((*ite)->isActiveInTree())
+                renderEntity((*ite), ratio);
         }
 
         // printf("error:%d\n", glGetError());
