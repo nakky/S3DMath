@@ -45,6 +45,27 @@ struct MaterialGLParameter
     GLuint texture;
 };
 
+class RotateFunction : public EntityFunction
+{
+public:
+    RotateFunction() : EntityFunction(), t(0) {}
+    virtual ~RotateFunction() {}
+
+    virtual unsigned int getFunctionType() { return 0; }
+
+    virtual void onUpdate(const float delta)
+    {
+        t += 0.01f;
+        Quaternion4 q;
+        q.setUnitQuaternion();
+        q.convert(Vector3(0.0f, 1.0f, 0.0f), t);
+        mEntity->setLocalRotation(q);
+    }
+
+private:
+    float t;
+};
+
 static const char *vertex_shader_text =
     "#version 330\n"
     "vec3 mul(vec3 v1, vec3 v2){"
@@ -268,6 +289,8 @@ int main(void)
 
     cluster->addChild(content);
 
+    content->addFunction(new RotateFunction());
+
     // Red rect
     entity = new Entity();
     entity->init();
@@ -345,11 +368,6 @@ int main(void)
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        t += 0.01f;
-        q.setUnitQuaternion();
-        q.convert(Vector3(0.0f, 1.0f, 0.0f), t);
-        content->setLocalRotation(q);
-
         camera->setLocalPosition(Vector3(3.0f, 4.2426f, 0.0f));
 
         Quaternion4 crx;
@@ -359,6 +377,19 @@ int main(void)
         cry.setUnitQuaternion();
         cry.convert(Vector3(0.0f, 1.0f, 0.0), 45.0f / 180.0f * PIF);
         camera->setLocalRotation(cry * crx);
+
+        std::list<Entity *> opaqueList = renderList.getOpaqueSortedList();
+        std::list<Entity *> notOpaqueList = renderList.getNotOpaqueSortedList();
+
+        // Update
+        for (auto ite = entityList.begin(); ite != entityList.end(); ite++)
+        {
+            if ((*ite)->isActiveInTree())
+            {
+                (*ite)->functionFixedUpdate(0.13f);
+                (*ite)->functionUpdate(0.13f);
+            }
+        }
 
         cluster->tryUpdate();
 
@@ -377,9 +408,7 @@ int main(void)
         // renderlist
         renderList.sort(Vector3(0.0f, 0.0f, 10.0f));
 
-        std::list<Entity *> opaqueList = renderList.getOpaqueSortedList();
-        std::list<Entity *> notOpaqueList = renderList.getNotOpaqueSortedList();
-
+        // Render
         for (auto ite = opaqueList.begin(); ite != opaqueList.end(); ite++)
         {
             if ((*ite)->isActiveInTree())

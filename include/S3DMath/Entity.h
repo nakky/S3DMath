@@ -4,14 +4,17 @@
 #include "GeometricNode.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "EntityFunction.h"
 
 namespace S3DMath
 {
     class Cluster;
+    class RenderList;
 
     class Entity
     {
         friend class Cluster;
+        friend class RenderList;
 
     public:
         Entity()
@@ -59,7 +62,17 @@ namespace S3DMath
         const Quaternion4 *getGlobalOrientation() const { return mNode.getGlobalOrientation(); }
         const Vector3 *getGlobalScale() const { return mNode.getGlobalScale(); }
 
+        EntityFunction *getFunction(const unsigned int functionType);
+        const bool addFunction(EntityFunction *function);
+        const bool removeFunction(EntityFunction *function);
+        const bool removeFunction(const unsigned int functionType);
+
         float getDiffFromCamera() { return mDiffFromCamera; }
+
+        virtual void functionFixedUpdate(const float delta);
+        virtual bool functionUpdate(const float delta);
+
+    protected:
         void setDiffFromCamera(const float diff) { mDiffFromCamera = diff; }
 
     protected:
@@ -71,6 +84,8 @@ namespace S3DMath
 
         Mesh *mMesh;
         Material *mMaterial;
+
+        std::list<EntityFunction *> mFunctions;
 
         float mDiffFromCamera;
         void *mUserData;

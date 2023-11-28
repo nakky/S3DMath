@@ -11,6 +11,13 @@ namespace S3DMath
 
     void Entity::cleanup()
     {
+        for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
+        {
+            (*ite)->cleanuped();
+            SAFE_DELETE((*ite));
+        }
+        mFunctions.clear();
+
         mNode.cleanup();
     }
 
@@ -46,6 +53,62 @@ namespace S3DMath
     {
         mNode.calculateGlobalState();
         mNeedStateUpdate = false;
+    }
+
+    EntityFunction *Entity::getFunction(const unsigned int functionType)
+    {
+        for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
+        {
+            if ((*ite)->getFunctionType() == functionType)
+                return (*ite);
+        }
+        return NULL;
+    }
+
+    const bool Entity::addFunction(EntityFunction *function)
+    {
+        for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
+        {
+            if ((*ite)->getFunctionType() == function->getFunctionType())
+                return false;
+        }
+
+        mFunctions.push_back(function);
+        function->added(this);
+        return true;
+    }
+
+    const bool Entity::removeFunction(EntityFunction *function)
+    {
+        mFunctions.remove(function);
+        function->removed();
+        return true;
+    }
+
+    const bool Entity::removeFunction(const unsigned int functionType)
+    {
+        auto func = getFunction(functionType);
+        if (func == NULL)
+            return false;
+        return removeFunction(func);
+    }
+
+    void Entity::functionFixedUpdate(const float delta)
+    {
+        for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
+        {
+            (*ite)->updateState();
+            (*ite)->onFixedUpdate(delta);
+        }
+    }
+
+    bool Entity::functionUpdate(const float delta)
+    {
+        for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
+        {
+            (*ite)->onUpdate(delta);
+        }
+        return true;
     }
 
 }; // namespace S3DMath
