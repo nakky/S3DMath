@@ -16,10 +16,12 @@ namespace S3DMath
 
         virtual ~Cluster() {}
 
+        void updateActiveState();
         bool tryUpdate();
 
     private:
-        bool tryUpdateInternal(Entity *target, bool parentUpdate, bool parentIsActive);
+        void updateActiveStateInternal(Entity *target, bool parentIsActive);
+        bool tryUpdateInternal(Entity *target, bool parentUpdate);
     };
 }
 
