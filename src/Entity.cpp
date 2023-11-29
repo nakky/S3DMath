@@ -97,8 +97,11 @@ namespace S3DMath
     {
         for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
         {
-            (*ite)->updateState();
-            (*ite)->onFixedUpdate(delta);
+            if ((*ite)->isEnable())
+            {
+                (*ite)->updateState();
+                (*ite)->onFixedUpdate(delta);
+            }
         }
     }
 
@@ -106,7 +109,8 @@ namespace S3DMath
     {
         for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
         {
-            (*ite)->onUpdate(delta);
+            if ((*ite)->isEnable())
+                (*ite)->onUpdate(delta);
         }
         return true;
     }
