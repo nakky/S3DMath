@@ -29,7 +29,10 @@
 
 #include "S3DMath/RenderList.h"
 
+#include "S3DMath/EntityFunction.h"
+
 #include "S3DMath/Mesh/Rectangle.h"
+#include "S3DMath/Mesh/FrameRectangle.h"
 #include "S3DMath/Mesh/Cuboid.h"
 
 #endif // S3DMATH_S3DMATH_H

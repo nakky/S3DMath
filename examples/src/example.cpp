@@ -297,7 +297,9 @@ int main(void)
 
     // entity->deactivate();
 
-    mesh = new Rectangle(1.f, 1.f);
+    // mesh = new Rectangle(1.f, 1.f);
+    mesh = new FrameRectangle(1.f, 1.f, 0.1f, 0.1f, 0.1f, 0.1f);
+
     mesh->init();
     entity->setMesh(mesh);
 
