@@ -80,41 +80,43 @@ namespace S3DMath
             mVertices[15].y = hheight;
             mVertices[15].z = 0.0f;
 
-            float vrate = mTop / (mTop + mBottom);
-            float hrate = mLeft / (mLeft + mRight);
+            float trate = mTop / (mTop + mBottom);
+            float brate = mBottom / (mTop + mBottom);
+            float lrate = mLeft / (mLeft + mRight);
+            float rrate = mRight / (mLeft + mRight);
 
             mUvs[0].x = 0.0f;
             mUvs[0].y = 1.0f;
-            mUvs[1].x = hrate;
+            mUvs[1].x = lrate;
             mUvs[1].y = 1.0f;
-            mUvs[2].x = hrate;
+            mUvs[2].x = rrate;
             mUvs[2].y = 1.0f;
             mUvs[3].x = 1.0f;
             mUvs[3].y = 1.0f;
 
             mUvs[4].x = 0.0f;
-            mUvs[4].y = vrate;
-            mUvs[5].x = hrate;
-            mUvs[5].y = vrate;
-            mUvs[6].x = hrate;
-            mUvs[6].y = vrate;
+            mUvs[4].y = brate;
+            mUvs[5].x = lrate;
+            mUvs[5].y = brate;
+            mUvs[6].x = rrate;
+            mUvs[6].y = brate;
             mUvs[7].x = 1.0f;
-            mUvs[7].y = vrate;
+            mUvs[7].y = brate;
 
             mUvs[8].x = 0.0f;
-            mUvs[8].y = vrate;
-            mUvs[9].x = hrate;
-            mUvs[9].y = vrate;
-            mUvs[10].x = hrate;
-            mUvs[10].y = vrate;
+            mUvs[8].y = trate;
+            mUvs[9].x = lrate;
+            mUvs[9].y = trate;
+            mUvs[10].x = rrate;
+            mUvs[10].y = trate;
             mUvs[11].x = 1.0f;
-            mUvs[11].y = vrate;
+            mUvs[11].y = trate;
 
             mUvs[12].x = 0.0f;
             mUvs[12].y = 0.0f;
-            mUvs[13].x = hrate;
+            mUvs[13].x = lrate;
             mUvs[13].y = 0.0f;
-            mUvs[14].x = hrate;
+            mUvs[14].x = rrate;
             mUvs[14].y = 0.0f;
             mUvs[15].x = 1.0f;
             mUvs[15].y = 0.0f;
