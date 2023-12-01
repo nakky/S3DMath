@@ -11,13 +11,18 @@ namespace S3DMath
     public:
         FrameRectangle(
             float width = 0.1f, float height = 0.1f,
-            float top = 0.01f, float right = 0.01f, float bottom = 0.01f, float left = 0.01f)
+            float top = 0.01f, float right = 0.01f, float bottom = 0.01f, float left = 0.01f,
+            float uvMarginTop = 0.25f, float uvMarginRight = 0.25f, float uvMarginBottom = 0.25f, float uvMarginLeft = 0.25f)
             : mWidth(width),
               mHeight(height),
               mTop(top),
               mRight(right),
               mBottom(bottom),
-              mLeft(left)
+              mLeft(left),
+              mMarginTop(uvMarginTop),
+              mMarginRight(uvMarginRight),
+              mMarginBottom(uvMarginBottom),
+              mMarginLeft(uvMarginLeft)
         {
         }
 
@@ -80,56 +85,57 @@ namespace S3DMath
             mVertices[15].y = hheight;
             mVertices[15].z = 0.0f;
 
-            float trate = mTop / (mTop + mBottom);
-            float brate = mBottom / (mTop + mBottom);
-            float lrate = mLeft / (mLeft + mRight);
-            float rrate = mRight / (mLeft + mRight);
-
             mUvs[0].x = 0.0f;
             mUvs[0].y = 1.0f;
-            mUvs[1].x = lrate;
+            mUvs[1].x = mMarginLeft;
             mUvs[1].y = 1.0f;
-            mUvs[2].x = rrate;
+            mUvs[2].x = 1.0 - mMarginRight;
             mUvs[2].y = 1.0f;
             mUvs[3].x = 1.0f;
             mUvs[3].y = 1.0f;
 
             mUvs[4].x = 0.0f;
-            mUvs[4].y = brate;
-            mUvs[5].x = lrate;
-            mUvs[5].y = brate;
-            mUvs[6].x = rrate;
-            mUvs[6].y = brate;
+            mUvs[4].y = 1.0f - mMarginBottom;
+            mUvs[5].x = mMarginLeft;
+            mUvs[5].y = 1.0f - mMarginBottom;
+            mUvs[6].x = 1.0 - mMarginRight;
+            mUvs[6].y = 1.0f - mMarginBottom;
             mUvs[7].x = 1.0f;
-            mUvs[7].y = brate;
+            mUvs[7].y = 1.0f - mMarginBottom;
 
             mUvs[8].x = 0.0f;
-            mUvs[8].y = trate;
-            mUvs[9].x = lrate;
-            mUvs[9].y = trate;
-            mUvs[10].x = rrate;
-            mUvs[10].y = trate;
+            mUvs[8].y = mMarginTop;
+            mUvs[9].x = mMarginLeft;
+            mUvs[9].y = mMarginTop;
+            mUvs[10].x = 1.0 - mMarginRight;
+            mUvs[10].y = mMarginTop;
             mUvs[11].x = 1.0f;
-            mUvs[11].y = trate;
+            mUvs[11].y = mMarginTop;
 
             mUvs[12].x = 0.0f;
             mUvs[12].y = 0.0f;
-            mUvs[13].x = lrate;
+            mUvs[13].x = mMarginLeft;
             mUvs[13].y = 0.0f;
-            mUvs[14].x = rrate;
+            mUvs[14].x = 1.0 - mMarginRight;
             mUvs[14].y = 0.0f;
             mUvs[15].x = 1.0f;
             mUvs[15].y = 0.0f;
 
-            for (int r = 0; r < 16; r++)
+            for (int y = 0; y < 3; y++)
             {
-                mIndices[r * 6] = r;
-                mIndices[r * 6 + 1] = r + 1;
-                mIndices[r * 6 + 2] = r + 4 + 1;
+                for (int x = 0; x < 3; x++)
+                {
+                    int r = y * 3 + x;
+                    int index = y * 4 + x;
 
-                mIndices[r * 6 + 3] = r;
-                mIndices[r * 6 + 4] = r + 4 + 1;
-                mIndices[r * 6 + 5] = r + 4;
+                    mIndices[r * 6] = index;
+                    mIndices[r * 6 + 1] = index + 1;
+                    mIndices[r * 6 + 2] = index + 4 + 1;
+
+                    mIndices[r * 6 + 3] = index;
+                    mIndices[r * 6 + 4] = index + 4 + 1;
+                    mIndices[r * 6 + 5] = index + 4;
+                }
             }
         }
         virtual void cleanup() {}
@@ -138,8 +144,8 @@ namespace S3DMath
         virtual unsigned int getNumVertices() { return 16; }
         virtual unsigned int getVerticesBufferSize() { return 16 * sizeof(Vector3); }
         virtual void *getIndices() { return mIndices; }
-        virtual unsigned int getNumIndices() { return 96; }
-        virtual unsigned int getIndicesBufferSize() { return 96 * sizeof(int); }
+        virtual unsigned int getNumIndices() { return 54; }
+        virtual unsigned int getIndicesBufferSize() { return 54 * sizeof(int); }
         virtual void *getUvs() { return mUvs; }
         virtual unsigned int getNumUvs() { return 16; }
         virtual unsigned int getUvsBufferSize() { return 16 * sizeof(Vector2); }
@@ -151,9 +157,13 @@ namespace S3DMath
         float mRight;
         float mBottom;
         float mLeft;
+        float mMarginTop;
+        float mMarginRight;
+        float mMarginBottom;
+        float mMarginLeft;
 
         Vector3 mVertices[16];
-        int mIndices[96];
+        int mIndices[54];
         Vector2 mUvs[16];
     };
 
