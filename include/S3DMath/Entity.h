@@ -5,20 +5,22 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "EntityFunction.h"
+#include "Resource.h"
 
 namespace S3DMath
 {
     class Cluster;
     class RenderList;
 
-    class Entity
+    class Entity : public Resource
     {
         friend class Cluster;
         friend class RenderList;
 
     public:
         Entity()
-            : mIsActive(true),
+            : Resource(),
+              mIsActive(true),
               mIsActiveInTree(true),
               mNeedStateUpdate(true),
               mMesh(NULL),
@@ -29,6 +31,8 @@ namespace S3DMath
         }
 
         virtual ~Entity() {}
+
+        virtual const short getResourceType() { return RESOURCETYPE_ENTITY; }
 
         virtual void init();
         virtual void cleanup();

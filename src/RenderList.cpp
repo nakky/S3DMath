@@ -34,7 +34,7 @@ namespace S3DMath
             if (mesh == NULL || mat == NULL)
                 continue;
 
-            if (mat->opaque)
+            if (mat->isOpaque())
             {
                 mOpaqueSortedList.push_back((*ite));
             }

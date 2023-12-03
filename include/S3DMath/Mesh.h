@@ -1,21 +1,23 @@
 #ifndef S3DMATH_MESH_H
 #define S3DMATH_MESH_H
 
+#include "Resource.h"
+
 namespace S3DMath
 {
 
-    class Mesh
+    class Mesh : public Resource
     {
     public:
         Mesh()
-            : mUserData(NULL)
+            : Resource(),
+              mUserData(NULL)
         {
         }
 
         virtual ~Mesh() {}
 
-        virtual void init() = 0;
-        virtual void cleanup() = 0;
+        virtual const short getResourceType() { return RESOURCETYPE_MESH; }
 
         virtual void *getVertices() = 0;
         virtual unsigned int getNumVertices() = 0;

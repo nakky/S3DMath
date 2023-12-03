@@ -6,6 +6,7 @@ namespace S3DMath
 {
     void Entity::init()
     {
+        Resource::init();
         mNode.init();
     }
 
@@ -19,6 +20,8 @@ namespace S3DMath
         mFunctions.clear();
 
         mNode.cleanup();
+
+        Resource::cleanup();
     }
 
     void Entity::addChild(Entity *child)

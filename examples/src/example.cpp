@@ -139,13 +139,6 @@ void registerEntity(Entity *entity)
         mesh->setUserData(param);
     }
 
-    /*
-    Material *mat = entity->getMaterial();
-    if (mat != NULL)
-    {
-    }
-    */
-
     renderList.add(entity);
 }
 
@@ -169,9 +162,9 @@ void releaseEntity(Entity *entity)
     Material *mat = entity->getMaterial();
     if (mat != NULL)
     {
-        if (mat->userData != NULL)
+        if (mat->getUserData() != NULL)
         {
-            MaterialGLParameter *matParam = (MaterialGLParameter *)mat->userData;
+            MaterialGLParameter *matParam = (MaterialGLParameter *)mat->getUserData();
             glDeleteTextures(1, &matParam->texture);
             SAFE_DELETE(matParam);
         }
@@ -193,7 +186,7 @@ void renderEntity(Entity *entity, float ratio)
         return;
 
     MeshGLParameter *param = (MeshGLParameter *)mesh->getUserData();
-    MaterialGLParameter *matparam = (MaterialGLParameter *)mat->userData;
+    MaterialGLParameter *matparam = (MaterialGLParameter *)mat->getUserData();
 
     Matrix44 m;
     m.setUnitMatrix();
@@ -212,9 +205,6 @@ void renderEntity(Entity *entity, float ratio)
 
     int numIndices = mesh->getIndicesBufferSize() / sizeof(int);
     glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
-
-    glUniform4fv(vcol_location, 1, (const GLfloat *)&white);
-    glDrawElements(GL_LINE_LOOP, numIndices, GL_UNSIGNED_INT, 0);
 }
 
 int main(void)
@@ -305,14 +295,13 @@ int main(void)
 
     mat = new Material();
 
-    mat->opaque = true;
-    mat->shaderId = 0;
+    mat->setOpaque(true);
 
     matparam = new MaterialGLParameter();
     matparam->texture = 0;
     matparam->color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 
-    mat->userData = matparam;
+    mat->setUserData(matparam);
     entity->setMaterial(mat);
 
     registerEntity(entity);
@@ -338,14 +327,13 @@ int main(void)
 
     mat = new Material();
 
-    mat->opaque = true;
-    mat->shaderId = 0;
+    mat->setOpaque(true);
 
     matparam = new MaterialGLParameter();
     matparam->texture = 0;
     matparam->color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 
-    mat->userData = matparam;
+    mat->setUserData(matparam);
 
     entity->setMaterial(mat);
 
