@@ -16,7 +16,8 @@ namespace S3DMath
     {
     public:
         Resource()
-            : mUserData(NULL)
+            : mUserData(NULL),
+              mResourceId(0)
         {
         }
 
@@ -28,8 +29,12 @@ namespace S3DMath
         void *getUserData() { return mUserData; }
         void setUserData(void *data) { mUserData = data; }
 
-    protected:
+        unsigned int getResourceId() { return mResourceId; }
+        void setResourceId(unsigned id) { mResourceId = id; }
+
+        protected:
         void *mUserData;
+        unsigned int mResourceId;
     };
 
 }; // namespace S3DMath
