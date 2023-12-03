@@ -24,8 +24,7 @@ namespace S3DMath
               mIsActiveInTree(true),
               mNeedStateUpdate(true),
               mMesh(NULL),
-              mMaterial(NULL),
-              mUserData(NULL)
+              mMaterial(NULL)
         {
             mNode.setUserData(this);
         }
@@ -48,9 +47,6 @@ namespace S3DMath
 
         Material *getMaterial() { return mMaterial; }
         void setMaterial(Material *mat) { mMaterial = mat; }
-
-        void *getUserData() { return mUserData; }
-        void setUserData(void *data) { mUserData = data; }
 
         bool needUpdateState() { return mNeedStateUpdate; }
         virtual void updateState();
@@ -95,7 +91,6 @@ namespace S3DMath
         std::list<EntityFunction *> mFunctions;
 
         float mDiffFromCamera;
-        void *mUserData;
     };
 }
 

@@ -10,8 +10,7 @@ namespace S3DMath
     {
     public:
         Mesh()
-            : Resource(),
-              mUserData(NULL)
+            : Resource()
         {
         }
 
@@ -28,12 +27,6 @@ namespace S3DMath
         virtual void *getUvs() = 0;
         virtual unsigned int getNumUvs() = 0;
         virtual unsigned int getUvsBufferSize() = 0;
-
-        void *getUserData() { return mUserData; }
-        void setUserData(void *data) { mUserData = data; }
-
-    protected:
-        void *mUserData;
     };
 
 }; // namespace S3DMath

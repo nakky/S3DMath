@@ -16,6 +16,7 @@ namespace S3DMath
     {
     public:
         Resource()
+            : mUserData(NULL)
         {
         }
 
@@ -23,6 +24,12 @@ namespace S3DMath
         virtual void cleanup() {}
 
         virtual const short getResourceType() = 0;
+
+        void *getUserData() { return mUserData; }
+        void setUserData(void *data) { mUserData = data; }
+
+    protected:
+        void *mUserData;
     };
 
 }; // namespace S3DMath

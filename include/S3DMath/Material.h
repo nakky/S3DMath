@@ -12,7 +12,6 @@ namespace S3DMath
     public:
         Material()
             : Resource(),
-              mUserData(NULL),
               mShaderId(0),
               mIsOpaque(false)
         {
@@ -28,14 +27,9 @@ namespace S3DMath
         const bool isOpaque() { return mIsOpaque; }
         void setOpaque(const bool opaque) { mIsOpaque = opaque; }
 
-        void *getUserData() { return mUserData; }
-        void setUserData(void *data) { mUserData = data; }
-
     protected:
         int mShaderId;
         bool mIsOpaque;
-
-        void *mUserData;
     };
 }
 
