@@ -22,13 +22,6 @@ namespace S3DMath
 
         virtual const short getResourceType() { return RESOURCETYPE_MATERIAL; }
 
-        virtual void cleanup()
-        {
-            if (mUserData != NULL)
-                SAFE_DELETE(mUserData);
-            Resource::cleanup();
-        }
-
         const int getShaderId() { return mShaderId; }
         void setShaderId(const int shaderId) { mShaderId = shaderId; }
 
