@@ -49,6 +49,9 @@ namespace S3DMath
         Material *getMaterial() { return mMaterial; }
         void setMaterial(Material *mat) { mMaterial = mat; }
 
+        void *getUserData() { return mUserData; }
+        void setUserData(void *data) { mUserData = data; }
+
         bool needUpdateState() { return mNeedStateUpdate; }
         virtual void updateState();
 
