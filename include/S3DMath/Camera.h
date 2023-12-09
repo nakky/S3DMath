@@ -18,10 +18,13 @@ namespace S3DMath
 
         virtual const bool needRender()
         {
-
             return Entity::needRender() || mNeedRender;
         }
-        virtual void resetNeedRender() { mNeedRender = false; }
+        virtual void resetNeedRender()
+        {
+            Entity::resetNeedRender();
+            mNeedRender = false;
+        }
 
         virtual void updateState();
 

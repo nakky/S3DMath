@@ -53,6 +53,7 @@ namespace S3DMath
             if (ret)
                 return true;
         }
+        return false;
     }
 
     const bool Cluster::needRenderInternal(Entity *target)
@@ -72,12 +73,19 @@ namespace S3DMath
 
     void Cluster::resetNeedRender()
     {
-        resetNeedRenderInternal(this);
+        Entity::resetNeedRender();
+
+        std::list<GeometricNode *> &children = mNode.getChildList();
+        for (auto ite = children.begin(); ite != children.end(); ite++)
+        {
+            Entity *next = (Entity *)(*ite)->getUserData();
+            resetNeedRenderInternal(next);
+        }
     }
 
     void Cluster::resetNeedRenderInternal(Entity *target)
     {
-        Entity::resetNeedRender();
+        target->resetNeedRender();
         std::list<GeometricNode *> &children = target->mNode.getChildList();
         for (auto ite = children.begin(); ite != children.end(); ite++)
         {
