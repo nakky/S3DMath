@@ -11,40 +11,79 @@ namespace S3DMath
     {
         target->mIsActiveInTree = target->isActive() && parentIsActive;
 
-        auto children = target->mNode.getChildList();
+        std::list<GeometricNode *> &children = target->mNode.getChildList();
         for (auto ite = children.begin(); ite != children.end(); ite++)
         {
             Entity *next = (Entity *)(*ite)->getUserData();
-            bool ret = tryUpdateInternal(next, target->isActiveInTree());
+            tryUpdateInternal(next, target->isActiveInTree());
         }
     }
 
-    bool Cluster::tryUpdate()
+    void Cluster::tryUpdate()
     {
-        return tryUpdateInternal(this, false);
+        tryUpdateInternal(this, false);
     }
 
-    bool Cluster::tryUpdateInternal(Entity *target, bool parentUpdate)
+    void Cluster::tryUpdateInternal(Entity *target, bool parentUpdate)
     {
-        bool retval = false;
-
         bool needUpdate = parentUpdate || target->needUpdateState();
         if (target->isActiveInTree() && needUpdate)
         {
             target->updateState();
-            retval = true;
-        }
 
-        auto children = target->mNode.getChildList();
+            std::list<GeometricNode *> &children = target->mNode.getChildList();
+            for (auto ite = children.begin(); ite != children.end(); ite++)
+            {
+                Entity *next = (Entity *)(*ite)->getUserData();
+                tryUpdateInternal(next, needUpdate);
+            }
+        }
+    }
+
+    const bool Cluster::needRender()
+    {
+        if (Entity::needRender())
+            return true;
+
+        std::list<GeometricNode *> &children = mNode.getChildList();
         for (auto ite = children.begin(); ite != children.end(); ite++)
         {
             Entity *next = (Entity *)(*ite)->getUserData();
-            bool ret = tryUpdateInternal(next, needUpdate);
-            if (ret || retval)
-                retval = true;
+            bool ret = needRenderInternal(next);
+            if (ret)
+                return true;
         }
+    }
 
-        return retval;
+    const bool Cluster::needRenderInternal(Entity *target)
+    {
+        if (target->needRender())
+            return true;
+        std::list<GeometricNode *> &children = target->mNode.getChildList();
+        for (auto ite = children.begin(); ite != children.end(); ite++)
+        {
+            Entity *next = (Entity *)(*ite)->getUserData();
+            bool ret = needRenderInternal(next);
+            if (ret)
+                return true;
+        }
+        return false;
+    }
+
+    void Cluster::resetNeedRender()
+    {
+        resetNeedRenderInternal(this);
+    }
+
+    void Cluster::resetNeedRenderInternal(Entity *target)
+    {
+        Entity::resetNeedRender();
+        std::list<GeometricNode *> &children = target->mNode.getChildList();
+        for (auto ite = children.begin(); ite != children.end(); ite++)
+        {
+            Entity *next = (Entity *)(*ite)->getUserData();
+            resetNeedRenderInternal(next);
+        }
     }
 
 }; // namespace S3DMath

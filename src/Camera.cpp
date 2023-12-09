@@ -23,6 +23,8 @@ namespace S3DMath
         mProjection.m[3][1] = -(top + bottom) / (top - bottom);
         mProjection.m[3][2] = -(far + near) / (far - near);
         mProjection.m[3][3] = 1.f;
+
+        mNeedRender = true;
     }
 
     void Camera::perspective(float fovy, float aspect, float near, float far)
@@ -48,6 +50,8 @@ namespace S3DMath
         mProjection.m[3][1] = 0.f;
         mProjection.m[3][2] = -((2.f * far * near) / (far - near));
         mProjection.m[3][3] = 0.f;
+
+        mNeedRender = true;
     }
 
 } // namespace S3DMath

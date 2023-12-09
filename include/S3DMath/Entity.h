@@ -48,7 +48,25 @@ namespace S3DMath
         Material *getMaterial() { return mMaterial; }
         void setMaterial(Material *mat) { mMaterial = mat; }
 
-        bool needUpdateState() { return mNeedStateUpdate; }
+        virtual const bool needRender()
+        {
+            if (mMesh != NULL && mMesh->needRender())
+                return true;
+            else if (mMaterial != NULL && mMaterial->needRender())
+                return true;
+            return mNeedStateUpdate;
+        }
+
+        virtual void resetNeedRender()
+        {
+            if (mMesh != NULL)
+                mMesh->resetNeedRender();
+            if (mMaterial != NULL)
+                mMaterial->resetNeedRender();
+            mNeedStateUpdate = false;
+        }
+
+        virtual bool needUpdateState() { return mNeedStateUpdate; }
         virtual void updateState();
 
         void addChild(Entity *child);

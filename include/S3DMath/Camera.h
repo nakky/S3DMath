@@ -9,11 +9,19 @@ namespace S3DMath
     {
     public:
         Camera()
-            : Entity()
+            : Entity(),
+              mNeedRender(true)
         {
         }
 
         virtual ~Camera() {}
+
+        virtual const bool needRender()
+        {
+
+            return Entity::needRender() || mNeedRender;
+        }
+        virtual void resetNeedRender() { mNeedRender = false; }
 
         virtual void updateState();
 
@@ -24,6 +32,7 @@ namespace S3DMath
 
     protected:
         S3DMath::Matrix44 mProjection;
+        bool mNeedRender;
     };
 }
 

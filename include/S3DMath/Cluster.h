@@ -16,12 +16,18 @@ namespace S3DMath
 
         virtual ~Cluster() {}
 
+        virtual const bool needRender();
+        virtual void resetNeedRender();
+
         void updateActiveState();
-        bool tryUpdate();
+        void tryUpdate();
 
     private:
+        virtual const bool needRenderInternal(Entity *target);
+        virtual void resetNeedRenderInternal(Entity *target);
+
         void updateActiveStateInternal(Entity *target, bool parentIsActive);
-        bool tryUpdateInternal(Entity *target, bool parentUpdate);
+        void tryUpdateInternal(Entity *target, bool parentUpdate);
     };
 }
 

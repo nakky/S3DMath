@@ -370,8 +370,8 @@ int main(void)
         cry.convert(Vector3(0.0f, 1.0f, 0.0), 45.0f / 180.0f * PIF);
         camera->setLocalRotation(cry * crx);
 
-        std::list<Entity *> opaqueList = renderList.getOpaqueSortedList();
-        std::list<Entity *> notOpaqueList = renderList.getNotOpaqueSortedList();
+        std::list<Entity *> &opaqueList = renderList.getOpaqueSortedList();
+        std::list<Entity *> &notOpaqueList = renderList.getNotOpaqueSortedList();
 
         // Update
         for (auto ite = entityList.begin(); ite != entityList.end(); ite++)
@@ -383,39 +383,47 @@ int main(void)
             }
         }
 
-        cluster->tryUpdate();
-
         // Camera
         camera->ortho(-ratio, ratio, -1.0f, 1.0f, 0.01f, 100.0f);
         // camera->perspective(60.0f / 180.f * (float)PIF, ratio, 0.01f, 100.0f);
 
-        Matrix44 proj = camera->getProjectionMatrix();
-        glUniformMatrix4fv(projection_location, 1, GL_FALSE, (const GLfloat *)proj.serial);
+        cluster->tryUpdate();
 
-        glUniform3fv(ctrans_location, 1, (const GLfloat *)camera->getGlobalPosition());
-        Quaternion4 crot = *(camera->getGlobalOrientation());
-        crot.inverse();
-        glUniform4fv(crot_location, 1, (const GLfloat *)&crot);
+        bool needRender = cluster->needRender();
 
-        // renderlist
-        renderList.sort(Vector3(0.0f, 0.0f, 10.0f));
-
-        // Render
-        for (auto ite = opaqueList.begin(); ite != opaqueList.end(); ite++)
+        if (needRender)
         {
-            if ((*ite)->isActiveInTree())
-                renderEntity((*ite), ratio);
+            Matrix44 proj = camera->getProjectionMatrix();
+            glUniformMatrix4fv(projection_location, 1, GL_FALSE, (const GLfloat *)proj.serial);
+
+            glUniform3fv(ctrans_location, 1, (const GLfloat *)camera->getGlobalPosition());
+            Quaternion4 crot = *(camera->getGlobalOrientation());
+            crot.inverse();
+            glUniform4fv(crot_location, 1, (const GLfloat *)&crot);
+
+            // renderlist
+            renderList.sort(Vector3(0.0f, 0.0f, 10.0f));
+
+            // Render
+            for (auto ite = opaqueList.begin(); ite != opaqueList.end(); ite++)
+            {
+                if ((*ite)->isActiveInTree())
+                    renderEntity((*ite), ratio);
+            }
+
+            for (auto ite = notOpaqueList.begin(); ite != notOpaqueList.end(); ite++)
+            {
+                if ((*ite)->isActiveInTree())
+                    renderEntity((*ite), ratio);
+            }
+
+            // printf("error:%d\n", glGetError());
+
+            glfwSwapBuffers(window);
+
+            cluster->resetNeedRender();
         }
 
-        for (auto ite = notOpaqueList.begin(); ite != notOpaqueList.end(); ite++)
-        {
-            if ((*ite)->isActiveInTree())
-                renderEntity((*ite), ratio);
-        }
-
-        // printf("error:%d\n", glGetError());
-
-        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 

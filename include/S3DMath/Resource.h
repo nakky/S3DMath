@@ -32,7 +32,10 @@ namespace S3DMath
         unsigned int getResourceId() { return mResourceId; }
         void setResourceId(unsigned id) { mResourceId = id; }
 
-        protected:
+        virtual const bool needRender() = 0;
+        virtual void resetNeedRender() = 0;
+
+    protected:
         void *mUserData;
         unsigned int mResourceId;
     };

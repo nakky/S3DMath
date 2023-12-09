@@ -55,7 +55,6 @@ namespace S3DMath
     void Entity::updateState()
     {
         mNode.calculateGlobalState();
-        mNeedStateUpdate = false;
     }
 
     EntityFunction *Entity::getFunction(const unsigned int functionType)

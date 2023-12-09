@@ -18,6 +18,9 @@ namespace S3DMath
 
         virtual const short getResourceType() { return RESOURCETYPE_MESH; }
 
+        virtual const bool needRender() { return false; }
+        virtual void resetNeedRender() {}
+
         virtual void *getVertices() = 0;
         virtual unsigned int getNumVertices() = 0;
         virtual unsigned int getVerticesBufferSize() = 0;

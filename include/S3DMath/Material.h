@@ -13,23 +13,36 @@ namespace S3DMath
         Material()
             : Resource(),
               mShaderId(0),
-              mIsOpaque(false)
+              mIsOpaque(false),
+              mNeedRender(true)
         {
         }
 
         virtual ~Material() {}
 
+        virtual const bool needRender() { return mNeedRender; }
+        virtual void resetNeedRender() { mNeedRender = false; }
+
         virtual const short getResourceType() { return RESOURCETYPE_MATERIAL; }
 
         const int getShaderId() { return mShaderId; }
-        void setShaderId(const int shaderId) { mShaderId = shaderId; }
+        void setShaderId(const int shaderId)
+        {
+            mShaderId = shaderId;
+            mNeedRender = true;
+        }
 
         const bool isOpaque() { return mIsOpaque; }
-        void setOpaque(const bool opaque) { mIsOpaque = opaque; }
+        void setOpaque(const bool opaque)
+        {
+            mIsOpaque = opaque;
+            mNeedRender = true;
+        }
 
     protected:
         int mShaderId;
         bool mIsOpaque;
+        bool mNeedRender;
     };
 }
 
