@@ -30,6 +30,24 @@ namespace S3DMath
 
         virtual void init()
         {
+            setParam(mWidth, mHeight, mTop, mRight, mBottom, mLeft, mMarginTop, mMarginRight, mMarginBottom, mMarginLeft);
+        }
+        virtual void cleanup() {}
+
+        virtual void *getVertices() { return mVertices; }
+        virtual unsigned int getNumVertices() { return 16; }
+        virtual unsigned int getVerticesBufferSize() { return 16 * sizeof(Vector3); }
+        virtual void *getIndices() { return mIndices; }
+        virtual unsigned int getNumIndices() { return 54; }
+        virtual unsigned int getIndicesBufferSize() { return 54 * sizeof(int); }
+        virtual void *getUvs() { return mUvs; }
+        virtual unsigned int getNumUvs() { return 16; }
+        virtual unsigned int getUvsBufferSize() { return 16 * sizeof(Vector2); }
+
+        virtual void setParam(float width = 0.1f, float height = 0.1f,
+                              float top = 0.01f, float right = 0.01f, float bottom = 0.01f, float left = 0.01f,
+                              float uvMarginTop = 0.25f, float uvMarginRight = 0.25f, float uvMarginBottom = 0.25f, float uvMarginLeft = 0.25f)
+        {
             float hwidth = mWidth / 2.0f;
             float hheight = mHeight / 2.0f;
 
@@ -138,17 +156,6 @@ namespace S3DMath
                 }
             }
         }
-        virtual void cleanup() {}
-
-        virtual void *getVertices() { return mVertices; }
-        virtual unsigned int getNumVertices() { return 16; }
-        virtual unsigned int getVerticesBufferSize() { return 16 * sizeof(Vector3); }
-        virtual void *getIndices() { return mIndices; }
-        virtual unsigned int getNumIndices() { return 54; }
-        virtual unsigned int getIndicesBufferSize() { return 54 * sizeof(int); }
-        virtual void *getUvs() { return mUvs; }
-        virtual unsigned int getNumUvs() { return 16; }
-        virtual unsigned int getUvsBufferSize() { return 16 * sizeof(Vector2); }
 
     protected:
         float mWidth;
