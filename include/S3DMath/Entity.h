@@ -83,6 +83,9 @@ namespace S3DMath
         const Quaternion4 *getGlobalOrientation() const { return mNode.getGlobalOrientation(); }
         const Vector3 *getGlobalScale() const { return mNode.getGlobalScale(); }
 
+        const Vector3 *getPivot() { return &mPivot; }
+        const void setPivot(const Vector3 &pivot) { mPivot = pivot; }
+
         EntityFunction *getFunction(const unsigned int functionType);
         const bool addFunction(EntityFunction *function);
         const bool removeFunction(EntityFunction *function);
@@ -100,7 +103,9 @@ namespace S3DMath
         bool mIsActive;
         bool mIsActiveInTree;
 
-        S3DMath::GeometricNode mNode;
+        Vector3 mPivot;
+
+        GeometricNode mNode;
         bool mNeedStateUpdate;
 
         Mesh *mMesh;

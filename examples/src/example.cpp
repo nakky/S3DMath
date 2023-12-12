@@ -14,6 +14,8 @@ using namespace S3DMath;
 
 std::list<Entity *> entityList;
 
+GLint pivot_location = 0;
+
 GLint vpos_location = 0;
 GLint vuv_location = 0;
 
@@ -80,6 +82,7 @@ static const char *vertex_shader_text =
     "	    q.x * -rz + q.y * rw + q.z * rx + q.w * ry,"
     "	    q.x * ry + q.y * -rx + q.z * rw + q.w * rz);"
     "}\n"
+    "uniform vec3 pivot;\n"
     "uniform mat4 projection;\n"
     "uniform vec3 trans;\n"
     "uniform vec4 rot;\n"
@@ -89,7 +92,7 @@ static const char *vertex_shader_text =
     "in vec3 position;\n"
     "void main()"
     "{"
-    "   vec4 vec = vec4(rotate(mul(position, scale), rot) + trans, 1.0);"
+    "   vec4 vec = vec4(rotate(mul(position - pivot, scale), rot) + trans, 1.0);"
     "   gl_Position = projection * vec4(rotate((vec.xyz - ctrans), crot), 1.0);"
     "}\n";
 
@@ -193,6 +196,8 @@ void renderEntity(Entity *entity, float ratio)
 
     glUseProgram(program);
 
+    glUniform3fv(pivot_location, 1, (const GLfloat *)entity->getPivot());
+
     glUniform3fv(trans_location, 1, (const GLfloat *)entity->getGlobalPosition());
     glUniform4fv(rot_location, 1, (const GLfloat *)entity->getGlobalOrientation());
     glUniform3fv(scale_location, 1, (const GLfloat *)entity->getGlobalScale());
@@ -243,6 +248,8 @@ int main(void)
     glAttachShader(program, vertex_shader);
     glAttachShader(program, fragment_shader);
     glLinkProgram(program);
+
+    pivot_location = glGetUniformLocation(program, "pivot");
 
     vpos_location = glGetAttribLocation(program, "position");
     vcol_location = glGetUniformLocation(program, "color");
@@ -324,6 +331,8 @@ int main(void)
 
     mesh->init();
     entity->setMesh(mesh);
+
+    entity->setPivot(Vector3(0.25f, -0.25f, 0.25f));
 
     mat = new Material();
 
