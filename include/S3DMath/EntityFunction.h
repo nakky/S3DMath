@@ -57,6 +57,11 @@ namespace S3DMath
         virtual void onInitialize() {}
         virtual void onTerminate() {}
 
+        virtual void onLoad() {}
+        virtual void onRegisterGraphics() {}
+        virtual void onUnload() {}
+        virtual void onUnregisterGraphics() {}
+
         virtual void onStart() {}
 
         virtual void onActivate() {}

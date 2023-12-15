@@ -96,6 +96,11 @@ namespace S3DMath
         virtual void functionFixedUpdate(const float delta);
         virtual bool functionUpdate(const float delta);
 
+        virtual void functionLoad();
+        virtual void functionRegisterGraphics();
+        virtual void functionUnregisterGraphics();
+        virtual void functionUnload();
+
     protected:
         void setDiffFromCamera(const float diff) { mDiffFromCamera = diff; }
 

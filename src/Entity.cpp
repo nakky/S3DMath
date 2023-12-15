@@ -117,4 +117,36 @@ namespace S3DMath
         return true;
     }
 
+    void Entity::functionLoad()
+    {
+        for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
+        {
+            (*ite)->onLoad();
+        }
+    }
+
+    void Entity::functionRegisterGraphics()
+    {
+        for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
+        {
+            (*ite)->onRegisterGraphics();
+        }
+    }
+
+    void Entity::functionUnregisterGraphics()
+    {
+        for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
+        {
+            (*ite)->onUnregisterGraphics();
+        }
+    }
+
+    void Entity::functionUnload()
+    {
+        for (auto ite = mFunctions.begin(); ite != mFunctions.end(); ite++)
+        {
+            (*ite)->onUnload();
+        }
+    }
+
 }; // namespace S3DMath
