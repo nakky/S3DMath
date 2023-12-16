@@ -69,6 +69,17 @@ namespace S3DMath
                               float top = 0.01f, float right = 0.01f, float bottom = 0.01f, float left = 0.01f,
                               float uvMarginTop = 0.25f, float uvMarginRight = 0.25f, float uvMarginBottom = 0.25f, float uvMarginLeft = 0.25f)
         {
+            mWidth = width;
+            mHeight = height;
+            mTop = top;
+            mRight = right;
+            mBottom = bottom;
+            mLeft = left;
+            mMarginTop = uvMarginTop;
+            mMarginRight = uvMarginRight;
+            mMarginBottom = uvMarginBottom;
+            mMarginLeft = uvMarginLeft;
+
             float hwidth = mWidth / 2.0f;
             float hheight = mHeight / 2.0f;
 
