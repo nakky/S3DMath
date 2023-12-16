@@ -30,6 +30,7 @@ namespace S3DMath
 
         virtual void init()
         {
+            setIndices();
             setParam(mWidth, mHeight, mTop, mRight, mBottom, mLeft, mMarginTop, mMarginRight, mMarginBottom, mMarginLeft);
         }
         virtual void cleanup() {}
@@ -43,6 +44,26 @@ namespace S3DMath
         virtual void *getUvs() { return mUvs; }
         virtual unsigned int getNumUvs() { return 16; }
         virtual unsigned int getUvsBufferSize() { return 16 * sizeof(Vector2); }
+
+        virtual void setIndices()
+        {
+            for (int y = 0; y < 3; y++)
+            {
+                for (int x = 0; x < 3; x++)
+                {
+                    int r = y * 3 + x;
+                    int index = y * 4 + x;
+
+                    mIndices[r * 6] = index;
+                    mIndices[r * 6 + 1] = index + 1;
+                    mIndices[r * 6 + 2] = index + 4 + 1;
+
+                    mIndices[r * 6 + 3] = index;
+                    mIndices[r * 6 + 4] = index + 4 + 1;
+                    mIndices[r * 6 + 5] = index + 4;
+                }
+            }
+        }
 
         virtual void setParam(float width = 0.1f, float height = 0.1f,
                               float top = 0.01f, float right = 0.01f, float bottom = 0.01f, float left = 0.01f,
@@ -138,23 +159,6 @@ namespace S3DMath
             mUvs[14].y = 0.0f;
             mUvs[15].x = 1.0f;
             mUvs[15].y = 0.0f;
-
-            for (int y = 0; y < 3; y++)
-            {
-                for (int x = 0; x < 3; x++)
-                {
-                    int r = y * 3 + x;
-                    int index = y * 4 + x;
-
-                    mIndices[r * 6] = index;
-                    mIndices[r * 6 + 1] = index + 1;
-                    mIndices[r * 6 + 2] = index + 4 + 1;
-
-                    mIndices[r * 6 + 3] = index;
-                    mIndices[r * 6 + 4] = index + 4 + 1;
-                    mIndices[r * 6 + 5] = index + 4;
-                }
-            }
         }
 
     protected:
