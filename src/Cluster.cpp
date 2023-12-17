@@ -30,13 +30,13 @@ namespace S3DMath
         if (target->isActiveInTree() && needUpdate)
         {
             target->updateState();
+        }
 
-            std::list<GeometricNode *> &children = target->mNode.getChildList();
-            for (auto ite = children.begin(); ite != children.end(); ite++)
-            {
-                Entity *next = (Entity *)(*ite)->getUserData();
-                tryUpdateInternal(next, needUpdate);
-            }
+        std::list<GeometricNode *> &children = target->mNode.getChildList();
+        for (auto ite = children.begin(); ite != children.end(); ite++)
+        {
+            Entity *next = (Entity *)(*ite)->getUserData();
+            tryUpdateInternal(next, needUpdate);
         }
     }
 
