@@ -37,8 +37,16 @@ namespace S3DMath
         virtual void cleanup();
 
         bool isActive() { return mIsActive; }
-        bool activate() { mIsActive = true; }
-        bool deactivate() { mIsActive = false; }
+        bool activate()
+        {
+            mNeedStateUpdate = true;
+            mIsActive = true;
+        }
+        bool deactivate()
+        {
+            mNeedStateUpdate = true;
+            mIsActive = false;
+        }
 
         bool isActiveInTree() { return mIsActiveInTree; }
 
