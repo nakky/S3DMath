@@ -24,7 +24,8 @@ namespace S3DMath
               mIsActiveInTree(true),
               mNeedStateUpdate(true),
               mMesh(NULL),
-              mMaterial(NULL)
+              mMaterial(NULL),
+              mPivot(0.0f, 0.0f, 0.0f)
         {
             mNode.setUserData(this);
         }
