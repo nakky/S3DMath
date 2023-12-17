@@ -4,7 +4,7 @@ namespace S3DMath
 {
     void Cluster::updateActiveState()
     {
-        return updateActiveStateInternal(this, true);
+        updateActiveStateInternal(this, true);
     }
 
     void Cluster::updateActiveStateInternal(Entity *target, bool parentIsActive)
@@ -15,7 +15,7 @@ namespace S3DMath
         for (auto ite = children.begin(); ite != children.end(); ite++)
         {
             Entity *next = (Entity *)(*ite)->getUserData();
-            tryUpdateInternal(next, target->isActiveInTree());
+            updateActiveStateInternal(next, target->isActiveInTree());
         }
     }
 
