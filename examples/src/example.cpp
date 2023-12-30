@@ -379,9 +379,6 @@ int main(void)
         cry.convert(Vector3(0.0f, 1.0f, 0.0), 45.0f / 180.0f * PIF);
         camera->setLocalRotation(cry * crx);
 
-        std::list<Entity *> &opaqueList = renderList.getOpaqueSortedList();
-        std::list<Entity *> &notOpaqueList = renderList.getNotOpaqueSortedList();
-
         // Update
         for (auto ite = entityList.begin(); ite != entityList.end(); ite++)
         {
@@ -411,7 +408,10 @@ int main(void)
             glUniform4fv(crot_location, 1, (const GLfloat *)&crot);
 
             // renderlist
-            renderList.sort(Vector3(0.0f, 0.0f, 10.0f));
+            renderList.sortByDistance(Vector3(0.0f, 0.0f, 10.0f));
+
+            std::list<Entity *> &opaqueList = renderList.getOpaqueDistanceSortedList();
+            std::list<Entity *> &notOpaqueList = renderList.getNotOpaqueDistanceSortedList();
 
             // Render
             for (auto ite = opaqueList.begin(); ite != opaqueList.end(); ite++)

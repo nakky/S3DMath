@@ -9,6 +9,12 @@
 
 namespace S3DMath
 {
+    enum OrderType
+    {
+        ORDERTYPE_DISANCE,
+        ORDERTYPE_VALUE,
+    };
+
     class Cluster;
     class RenderList;
 
@@ -25,7 +31,9 @@ namespace S3DMath
               mNeedStateUpdate(true),
               mMesh(NULL),
               mMaterial(NULL),
-              mPivot(0.0f, 0.0f, 0.0f)
+              mPivot(0.0f, 0.0f, 0.0f),
+              mOrderType(ORDERTYPE_DISANCE),
+              mOrderValue(0)
         {
             mNode.setUserData(this);
         }
@@ -56,6 +64,12 @@ namespace S3DMath
 
         Material *getMaterial() { return mMaterial; }
         void setMaterial(Material *mat) { mMaterial = mat; }
+
+        OrderType getOrderType() { return mOrderType; }
+        void setOrderType(OrderType type) { mOrderType = type; }
+
+        short getOrderValue() { return mOrderValue; }
+        void setOrderValue(short value) { mOrderValue = value; }
 
         virtual const bool needRender()
         {
@@ -128,6 +142,10 @@ namespace S3DMath
         std::list<EntityFunction *> mFunctions;
 
         float mDiffFromCamera;
+
+        OrderType mOrderType;
+
+        short mOrderValue;
     };
 }
 

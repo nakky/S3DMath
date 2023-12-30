@@ -17,6 +17,7 @@
 #include "S3DMath/Common.h"
 
 #include "S3DMath/MathematicsTypes.h"
+#include "S3DMath/Entity.h"
 
 #include <list>
 
@@ -32,15 +33,21 @@ namespace S3DMath
         void add(Entity *entity) { mRegisteredList.push_back(entity); }
         void remove(Entity *entity) { mRegisteredList.remove(entity); }
 
-        void sort(const Vector3 &cameraPosition);
+        void sortByDistance(const Vector3 &cameraPosition);
+        void sortByValue();
 
-        std::list<Entity *> &getOpaqueSortedList() { return mOpaqueSortedList; }
-        std::list<Entity *> &getNotOpaqueSortedList() { return mNotOpaqueSortedList; }
+        std::list<Entity *> &getOpaqueDistanceSortedList() { return mOpaqueDistanceSortedList; }
+        std::list<Entity *> &getNotOpaqueDistanceSortedList() { return mNotOpaqueDistanceSortedList; }
+        std::list<Entity *> &getOpaqueValueSortedList() { return mOpaqueValueSortedList; }
+        std::list<Entity *> &getNotOpaqueValueSortedList() { return mNotOpaqueValueSortedList; }
 
     protected:
         std::list<Entity *> mRegisteredList;
-        std::list<Entity *> mOpaqueSortedList;
-        std::list<Entity *> mNotOpaqueSortedList;
+
+        std::list<Entity *> mOpaqueDistanceSortedList;
+        std::list<Entity *> mNotOpaqueDistanceSortedList;
+        std::list<Entity *> mOpaqueValueSortedList;
+        std::list<Entity *> mNotOpaqueValueSortedList;
     };
 
 }; // namespace S3DMath
