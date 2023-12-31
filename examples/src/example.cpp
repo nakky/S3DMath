@@ -43,7 +43,7 @@ struct MeshGLParameter
 
 struct MaterialGLParameter
 {
-    Vector4 color;
+    Color4 color;
     GLuint texture;
 };
 
@@ -306,7 +306,7 @@ int main(void)
 
     matparam = new MaterialGLParameter();
     matparam->texture = 0;
-    matparam->color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+    matparam->color = Color4(1.0f, 0.0f, 0.0f, 1.0f);
 
     mat->setUserData(matparam);
     entity->setMaterial(mat);
@@ -340,7 +340,7 @@ int main(void)
 
     matparam = new MaterialGLParameter();
     matparam->texture = 0;
-    matparam->color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+    matparam->color = Color4(0.0f, 1.0f, 0.0f, 1.0f);
 
     mat->setUserData(matparam);
 

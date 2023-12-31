@@ -8,6 +8,7 @@ s3dmath_srcs = [
   'Matrix.cpp',
   'Quaternion.cpp',
   'Vector.cpp',
+  'Color.cpp',
   'Entity.cpp',
   'EntityFunction.cpp',
   'Camera.cpp',

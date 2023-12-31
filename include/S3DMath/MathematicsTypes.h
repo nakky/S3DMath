@@ -1054,6 +1054,68 @@ namespace S3DMath
 		};
 	};
 
+	/****************************************/
+	/*!
+		@class	Color4
+		@brief	Color parameter
+		@note
+		@author	Naoto Nakamura
+		@date	Mar. 10, 2009
+	*/
+	/****************************************/
+	class Color4
+	{
+	public:
+		// constructor
+		Color4() : a(1.0f) {}
+		Color4(const float fr, const float fg, const float fb, const float fa = 1.0f) : r(fr), g(fg), b(fb), a(fa) {}
+
+		// property
+		void set(const float fr, const float fg, const float fb)
+		{
+			r = fr;
+			g = fg;
+			b = fb;
+		}
+
+		void set(const float fr, const float fg, const float fb, const float fa)
+		{
+			r = fr;
+			g = fg;
+			b = fb;
+			a = fa;
+		}
+
+		void setAlpha(const float fa)
+		{
+			a = fa;
+		}
+
+		// comparison operators
+		bool operator==(const Color4 &c) const { return r == c.r && g == c.g && b == c.b && a == c.a; }
+		bool operator!=(const Color4 &c) const { return r != c.r || g != c.g || b != c.b || a != c.a; }
+
+		static const Color4 white;
+		static const Color4 black;
+		static const Color4 gray;
+		static const Color4 red;
+		static const Color4 green;
+		static const Color4 blue;
+
+	public:
+		union
+		{
+			struct
+			{
+				float r; //!< red
+				float g; //!< green
+				float b; //!< blue
+				float a; //!< alpha
+			};
+			float data[4];
+		};
+	};
+
 }; // namespace S3DMath
 
 #include "S3DMath/Vector-inl.h"
