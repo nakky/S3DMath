@@ -1068,6 +1068,12 @@ namespace S3DMath
 	public:
 		// constructor
 		Color4() : a(1.0f) {}
+		Color4(unsigned int code) : a(1.0f)
+		{
+			r = (float)((code >> 16) & 0xff) / 255.0f;
+			g = (float)((code >> 8) & 0xff) / 255.0f;
+			b = (float)(code & 0xff) / 255.0f;
+		}
 		Color4(const float fr, const float fg, const float fb, const float fa = 1.0f) : r(fr), g(fg), b(fb), a(fa) {}
 
 		// property

@@ -306,7 +306,8 @@ int main(void)
 
     matparam = new MaterialGLParameter();
     matparam->texture = 0;
-    matparam->color = Color4(1.0f, 0.0f, 0.0f, 1.0f);
+    // matparam->color = Color4(1.0f, 0.0f, 0.0f, 1.0f);
+    matparam->color = Color4(0x27529c);
 
     mat->setUserData(matparam);
     entity->setMaterial(mat);
