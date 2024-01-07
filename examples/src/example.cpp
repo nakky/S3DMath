@@ -271,20 +271,20 @@ int main(void)
     Quaternion4 q;
 
     // Base
-    Cluster *cluster = new Cluster();
+    RootEntity *root = new RootEntity();
 
     // Camera
     Camera *camera = new Camera();
     camera->init();
     registerEntity(camera);
 
-    cluster->addChild(camera);
+    root->addChild(camera);
 
     Entity *content = new Entity();
     content->init();
     registerEntity(content);
 
-    cluster->addChild(content);
+    root->addChild(content);
 
     content->addFunction(new RotateFunction());
 
@@ -306,8 +306,8 @@ int main(void)
 
     matparam = new MaterialGLParameter();
     matparam->texture = 0;
-    // matparam->color = Color4(1.0f, 0.0f, 0.0f, 1.0f);
-    matparam->color = Color4(0x27529c);
+    matparam->color = Color4(1.0f, 0.0f, 0.0f, 1.0f);
+    // matparam->color = Color4(0x27529c);
 
     mat->setUserData(matparam);
     entity->setMaterial(mat);
@@ -368,7 +368,7 @@ int main(void)
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        cluster->updateActiveState();
+        root->updateActiveState();
 
         camera->setLocalPosition(Vector3(3.0f, 4.2426f, 0.0f));
 
@@ -394,9 +394,9 @@ int main(void)
         camera->ortho(-ratio, ratio, -1.0f, 1.0f, 0.01f, 100.0f);
         // camera->perspective(60.0f / 180.f * (float)PIF, ratio, 0.01f, 100.0f);
 
-        cluster->tryUpdate();
+        root->tryUpdate();
 
-        bool needRender = cluster->needRender();
+        bool needRender = root->needRender();
 
         if (needRender)
         {
@@ -431,7 +431,7 @@ int main(void)
 
             glfwSwapBuffers(window);
 
-            cluster->resetNeedRender();
+            root->resetNeedRender();
         }
 
         glfwPollEvents();
@@ -442,7 +442,7 @@ int main(void)
         releaseEntity((*ite));
     }
 
-    SAFE_DELETE(cluster);
+    SAFE_DELETE(root);
 
     glfwDestroyWindow(window);
 

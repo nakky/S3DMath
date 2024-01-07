@@ -1,13 +1,13 @@
-#include "S3DMath/Cluster.h"
+#include "S3DMath/RootEntity.h"
 
 namespace S3DMath
 {
-    void Cluster::updateActiveState()
+    void RootEntity::updateActiveState()
     {
         updateActiveStateInternal(this, true);
     }
 
-    void Cluster::updateActiveStateInternal(Entity *target, bool parentIsActive)
+    void RootEntity::updateActiveStateInternal(Entity *target, bool parentIsActive)
     {
         target->mIsActiveInTree = target->isActive() && parentIsActive;
 
@@ -19,12 +19,12 @@ namespace S3DMath
         }
     }
 
-    void Cluster::tryUpdate()
+    void RootEntity::tryUpdate()
     {
         tryUpdateInternal(this, false);
     }
 
-    void Cluster::tryUpdateInternal(Entity *target, bool parentUpdate)
+    void RootEntity::tryUpdateInternal(Entity *target, bool parentUpdate)
     {
         bool needUpdate = parentUpdate || target->needUpdateState();
         if (target->isActiveInTree() && needUpdate)
@@ -40,7 +40,7 @@ namespace S3DMath
         }
     }
 
-    const bool Cluster::needRender()
+    const bool RootEntity::needRender()
     {
         if (Entity::needRender())
             return true;
@@ -56,7 +56,7 @@ namespace S3DMath
         return false;
     }
 
-    const bool Cluster::needRenderInternal(Entity *target)
+    const bool RootEntity::needRenderInternal(Entity *target)
     {
         if (target->needRender())
             return true;
@@ -71,7 +71,7 @@ namespace S3DMath
         return false;
     }
 
-    void Cluster::resetNeedRender()
+    void RootEntity::resetNeedRender()
     {
         Entity::resetNeedRender();
 
@@ -83,7 +83,7 @@ namespace S3DMath
         }
     }
 
-    void Cluster::resetNeedRenderInternal(Entity *target)
+    void RootEntity::resetNeedRenderInternal(Entity *target)
     {
         target->resetNeedRender();
         std::list<GeometricNode *> &children = target->mNode.getChildList();

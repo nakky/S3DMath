@@ -12,7 +12,7 @@ s3dmath_srcs = [
   'Entity.cpp',
   'EntityFunction.cpp',
   'Camera.cpp',
-  'Cluster.cpp',
+  'RootEntity.cpp',
   'RenderList.cpp',
 ]
 

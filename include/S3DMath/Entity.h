@@ -15,12 +15,12 @@ namespace S3DMath
         ORDERTYPE_VALUE,
     };
 
-    class Cluster;
+    class RootEntity;
     class RenderList;
 
     class Entity : public Resource
     {
-        friend class Cluster;
+        friend class RootEntity;
         friend class RenderList;
 
     public:

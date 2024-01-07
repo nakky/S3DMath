@@ -1,20 +1,20 @@
-#ifndef S3DMATH_CLUSTER_H
-#define S3DMATH_CLUSTER_H
+#ifndef S3DMATH_ROOTENTITY_H
+#define S3DMATH_ROOTENTITY_H
 
 #include "S3DMath/Entity.h"
 #include <list>
 
 namespace S3DMath
 {
-    class Cluster : public Entity
+    class RootEntity : public Entity
     {
     public:
-        Cluster()
+        RootEntity()
             : Entity()
         {
         }
 
-        virtual ~Cluster() {}
+        virtual ~RootEntity() {}
 
         virtual const bool needRender();
         virtual void resetNeedRender();
@@ -31,4 +31,4 @@ namespace S3DMath
     };
 }
 
-#endif // S3DMATH_CLUSTER_H
+#endif // S3DMATH_ROOTENTITY_H

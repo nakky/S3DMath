@@ -23,8 +23,7 @@
 
 #include "S3DMath/Mesh.h"
 #include "S3DMath/Entity.h"
-#include "S3DMath/Cluster.h"
-
+#include "S3DMath/RootEntity.h"
 #include "S3DMath/Camera.h"
 
 #include "S3DMath/RenderList.h"
