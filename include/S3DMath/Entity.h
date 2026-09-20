@@ -50,11 +50,13 @@ namespace S3DMath
         {
             mNeedStateUpdate = true;
             mIsActive = true;
+            return true;
         }
         bool deactivate()
         {
             mNeedStateUpdate = true;
             mIsActive = false;
+            return true;
         }
 
         bool isActiveInTree() { return mIsActiveInTree; }
