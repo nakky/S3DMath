@@ -21,6 +21,9 @@ namespace S3DMath
         {
         }
 
+        // Resources are deleted through this type (ResourceDatabase).
+        virtual ~Resource() {}
+
         virtual void init() {}
         virtual void cleanup() {}
 
